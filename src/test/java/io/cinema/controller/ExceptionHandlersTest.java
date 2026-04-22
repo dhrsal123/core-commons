@@ -39,6 +39,7 @@ class ExceptionHandlersTest {
 
         // Assert
         assertEquals(HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals("User already exists", response.getBody().message());
     }
 }
