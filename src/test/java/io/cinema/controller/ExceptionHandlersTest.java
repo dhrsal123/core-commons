@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.nio.file.AccessDeniedException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -27,6 +29,21 @@ class ExceptionHandlersTest {
         assertNotNull(response.getBody());
         assertEquals("System failure", response.getBody().message());
         assertEquals("UNKNOWN", response.getBody().code());
+    }
+
+    @Test
+    void shouldHandleAccessDeniedException() {
+        // Arrange
+        AccessDeniedException ex = new AccessDeniedException("Access denied");
+
+        // Act
+        ResponseEntity<BaseErrorDto> response = handler.handleAccessDeniedException(ex);
+
+        // Assert
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Access denied", response.getBody().message());
+        assertEquals("CINEMA-004", response.getBody().code());
     }
 
     @Test
