@@ -1,12 +1,15 @@
 package io.cinema.controller;
 
 import io.cinema.domain.dto.BaseErrorDto;
+import io.cinema.domain.enumerated.CinemaExceptionTypes;
 import io.cinema.domain.exceptions.CinemaException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.nio.file.AccessDeniedException;
 
 @Slf4j
 @RestControllerAdvice
@@ -24,6 +27,21 @@ public class ExceptionHandlers {
         return new ResponseEntity<>(
                 errorResponse,
                 HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<BaseErrorDto> handleAccessDeniedException(AccessDeniedException e) {
+
+        var errorResponse = new BaseErrorDto(
+                e.getMessage(),
+                CinemaExceptionTypes.FORBIDDEN.getCode(),
+                CinemaExceptionTypes.FORBIDDEN.getHttpStatus()
+        );
+
+        return new ResponseEntity<>(
+                errorResponse,
+                CinemaExceptionTypes.FORBIDDEN.getHttpStatus()
         );
     }
 
