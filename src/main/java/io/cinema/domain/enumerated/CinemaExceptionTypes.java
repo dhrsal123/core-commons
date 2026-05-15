@@ -18,7 +18,9 @@ public enum CinemaExceptionTypes {
 
     UNAUTHORIZED("CINEMA-005", "Unauthorized.", HttpStatus.UNAUTHORIZED),
 
-    USER_ALREADY_EXIST("CINEMA-006", "El usuario ya existe.", HttpStatus.PRECONDITION_FAILED);
+    USER_ALREADY_EXIST("CINEMA-006", "El usuario ya existe.", HttpStatus.PRECONDITION_FAILED),
+
+    NOT_FOUND("CINEMA-007", "Not Found.", HttpStatus.NOT_FOUND);
 
     private final String code;
     private final String message;
